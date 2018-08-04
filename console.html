@@ -1,0 +1,171 @@
+<!-- #include file="header.inc" -->
+<script>
+var perkMinLv;
+var perkMaxLv;
+var arrKickperk = new Array(10);
+
+$( document ).ready(function() {
+
+	var arrKickperkInit = ["Berserker","anonymous","anonymous","anonymous","Demolitionist","Firebug","anonymous","anonymous","anonymous","anonymous"];
+
+	localStorage.getItem("storageMin") || (localStorage.setItem("storageMin", "0"), console.log("localStorage MinLv initialized") );
+	localStorage.getItem("storageMax") || (localStorage.setItem("storageMax", "25"), console.log("localStorage MaxLv initialized") );
+	localStorage.getItem("storageKickperk") || (localStorage.setItem("storageKickperk", JSON.stringify(arrKickperkInit)), console.log("localStorage Kickperk initialized") );
+
+	perkMinLv = parseInt(localStorage.getItem("storageMin") );
+	perkMaxLv = parseInt(localStorage.getItem("storageMax") );
+	arrKickperk = JSON.parse(localStorage.getItem("storageKickperk"));
+	
+});
+
+</script>
+
+<div id="content">
+
+<h2>Auto-Kick</h2>
+<div id="autoKickdv" class="section">
+<div id="SG_AutoKick" class="SettingsGroup ui-tabs-panel" style="display: block;">
+<dl>
+<dt title="Minimum Perk Level"><label for="autokick_MinimumPerkLevel" title="Everyone below this level will be kicked.">Minimum Perk Level</label></dt>
+<dd class="">
+<select id="autokick_MinimumPerkLevel">
+</select>
+<script type="text/javascript">
+//<![CDATA[
+$( document ).ready(function() {
+
+	for(var i=0; i<=25; i++){
+
+		$("#autokick_MinimumPerkLevel").append($("<option>").val(i).text(i) );
+
+	}
+
+	$('#autokick_MinimumPerkLevel').val(perkMinLv);
+
+});
+
+$('#autokick_MinimumPerkLevel').change(function(){
+ 
+ 	var newLv = this.value;
+
+ 	perkMinLv = (!newLv) ? 0 : parseInt(newLv);
+
+	localStorage.setItem("storageMin", perkMinLv);
+	console.log("localStorage MinLv changed", perkMinLv)
+ 
+});
+//]]>
+</script>
+</dd>
+
+<dt title="Maximum Perk Level"><label for="autokick_MaximumPerkLevel" title="Everyone above this level will be kicked.">Maximum Perk Level</label></dt>
+<dd class="">
+<select id="autokick_MaximumPerkLevel">
+</select>
+<script type="text/javascript">
+//<![CDATA[
+$( document ).ready(function() {
+
+	for(var i=0; i<=25; i++){
+
+		$("#autokick_MaximumPerkLevel").append($("<option>").val(i).text(i) );
+
+	}
+
+	$('#autokick_MaximumPerkLevel').val(perkMaxLv);
+
+});
+
+$('#autokick_MaximumPerkLevel').change(function(){
+ 
+	 	var newLv = this.value;
+
+	 	perkMaxLv = (!newLv) ? 25 : parseInt(newLv);
+
+		localStorage.setItem("storageMax", perkMaxLv);
+		console.log("localStorage MaxLv changed", perkMaxLv);
+});
+//]]>
+</script>
+</dd>
+</dl>
+
+<dl>
+<dt title="Kick Perk"><label title="Checked perk will be kicked.">Kick Perk</label></dt>
+<label><input type="checkbox" name="kickperks" value="Berserker">Berserker</label>
+<label><input type="checkbox" name="kickperks" value="Commando">Commando</label>
+<label><input type="checkbox" name="kickperks" value="Support">Support</label>
+<label><input type="checkbox" name="kickperks" value="Field Medic">Field Medic</label>
+<label><input type="checkbox" name="kickperks" value="Demolitionist">Demolitionist</label>
+<label><input type="checkbox" name="kickperks" value="Firebug">Firebug</label>
+<label><input type="checkbox" name="kickperks" value="Gunslinger">Gunslinger</label>
+<label><input type="checkbox" name="kickperks" value="Sharpshooter">Sharpshooter</label>
+<label><input type="checkbox" name="kickperks" value="SWAT">SWAT</label>
+<label><input type="checkbox" name="kickperks" value="Survivalist">Survivalist</label>
+<script type="text/javascript">
+//<![CDATA[
+$(document).ready(function(){
+
+	$('input[name="kickperks"]:checked').each(function(){
+		this.checked = false;
+	});
+
+	$('input[name="kickperks"]').each(function(){
+
+		if(arrKickperk.includes(this.value) ){
+
+			this.checked = true;
+
+			$(this).parent('label').css({'color':'#c28282', 'text-shadow':'0px 0px 2px #964949'});
+
+		}
+
+	});
+
+});
+
+$('input[name="kickperks"]').change(function(){
+
+	var hashPerk = {Berserker:0, Commando:1, Support:2, "Field Medic":3, Demolitionist:4, Firebug:5, Gunslinger:6, Sharpshooter:7, SWAT:8, Survivalist:9};
+
+	var perkIndex = hashPerk[this.value];console.log("perkIndex =", perkIndex);
+
+	if($(this).is(':checked') == true){
+
+		arrKickperk[perkIndex] = this.value;
+
+		$(this).parent('label').css({'color':'#c28282', 'text-shadow':'0px 0px 2px #964949'});
+
+	}else{
+
+		arrKickperk[perkIndex] = "anonymous";
+
+		$(this).parent('label').css('color','');
+
+	}
+
+	var jsonKickperk = JSON.stringify(arrKickperk);console.log(jsonKickperk);
+	localStorage.setItem("storageKickperk", jsonKickperk);
+
+});
+//]]>
+</script>
+</dl>
+</div>
+</div>
+
+<h2><%page.title%></h2>
+<div id="consoleCommand" class="section">
+<p><em>Note:</em> not all console commands will return information. This does not mean that they were not executed.</p>
+<form action="<%page.fulluri%>" method="post">
+<p><input type="text" name="command" value="<%console.command%>" size="80" /><button type="submit">execute</button></p>
+</form>
+</div>
+
+<div id="consoleResults" style="<%console.visible%>">&gt; <span class="command"><%console.command%></span><br />
+<%console.results%></div>
+
+</div>
+
+<!-- #include file="navigation.inc" -->
+<!-- #include file="footer.inc" -->
