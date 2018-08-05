@@ -1,4 +1,4 @@
-# How to install?
+# How to install
 
 1. Install FireFox addon Violentmonkey https://addons.mozilla.org/ja/firefox/addon/violentmonkey/  
 2. Import KF2auto-kick.user.js  
@@ -6,7 +6,7 @@
 location: \<KF2Server\>\KFGame\Web\ServerAdmin  
 4. Launch KF2 Server
 
-# How to restrict level or perk?
+# How to restrict level or perk
 
 1. Click MANAGEMENT CONSOLE
 2. Edit level or perk what you want.
@@ -16,7 +16,7 @@ location: \<KF2Server\>\KFGame\Web\ServerAdmin
 * You are able to auto kick without mutator as Ranked Server.
 * I'm not original creator, I fixed a issue and improved, add perk-kick features.
 
-# What is a fixed issue and improved?
+# What is a fixed issue and improved
 
 I fixed and improved things are following:
 
