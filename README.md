@@ -14,4 +14,11 @@ location: \<KF2Server\>\KFGame\Web\ServerAdmin
 # Feature
 
 * You are able to auto kick without mutator as Ranked Server.
-* I'm not original creator, I fixed issues and improved, add perk-kick features.
+* I'm not original creator, I fixed a issue and improved, add perk-kick features.
+
+# What is a fixed issue and improved?
+
+I fixed and improved things are following:
+
+* Previous auto-kick script could't kick specific player whose name is multi byte character. (e.g. Japanese, Chinese, Korea)  
+* It was need to keep open AUTO-KICK page to run auto-kick script.
