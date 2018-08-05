@@ -10,3 +10,8 @@ location: \<KF2Server\>\KFGame\Web\ServerAdmin
 
 1. Click MANAGEMENT CONSOLE
 2. Edit level or perk what you want.
+
+# Feature
+
+* You are able to auto kick without mutator as Ranked Server.
+* I'm not original creator, I fixed issues and improved, add perk-kick features.
