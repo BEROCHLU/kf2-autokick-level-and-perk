@@ -18,12 +18,12 @@ location: \<KF2Server\>\KFGame\Web\ServerAdmin
 # How to run
 
 1. Launch KF2 Server.bat
-2. Open brower FireFox or Chrome
-3. Move to WebAdmin (e.g. http://localhost:8080)  
+2. Open brower FireFox or Chrome.
+3. Move to WebAdmin. (e.g. http://localhost:8080)  
 
 # How to restrict level or perk
 
-1. Click MANAGEMENT CONSOLE
+1. Click MANAGEMENT CONSOLE in WebAdmin.
 2. Edit level or perk what you want.
 
 # What is a fixed issue and improved
