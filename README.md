@@ -2,7 +2,10 @@
 # Feature
 
 * You are able to auto-kick level or perk without mutator as Ranked Server.
-* I'm not original creator, I fixed a issue and improved, add perk-kick features.
+* I'm not original creator, I fixed a issue and improved, add perk-kick features.  
+
+Original mutator is here (not available)  
+https://forums.tripwireinteractive.com/forum/killing-floor-2/killing-floor-2-modifications/general-modding-discussion-ad/beta-mod-releases/115511-webadmin-auto-kick-players-by-perk-level
 
 # How to install
 
