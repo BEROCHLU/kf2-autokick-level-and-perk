@@ -1,7 +1,7 @@
 
 # Feature
 
-* You are able to auto kick without mutator as Ranked Server.
+* You are able to auto kick level or perk without mutator as Ranked Server.
 * I'm not original creator, I fixed a issue and improved, add perk-kick features.
 
 # How to install
