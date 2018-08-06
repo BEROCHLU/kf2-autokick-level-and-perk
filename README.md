@@ -7,7 +7,7 @@
 Original script is here. (not available)  
 https://forums.tripwireinteractive.com/forum/killing-floor-2/killing-floor-2-modifications/general-modding-discussion-ad/beta-mod-releases/115511-webadmin-auto-kick-players-by-perk-level
 
-# How to install
+# Install
 
 1. Install FireFox or Chrome addon Violentmonkey https://addons.mozilla.org/ja/firefox/addon/violentmonkey/  
 2. Import KF2auto-kick.user.js by Violentmonkey setting.  
@@ -15,7 +15,7 @@ https://forums.tripwireinteractive.com/forum/killing-floor-2/killing-floor-2-mod
 console.html, current_players.html, current_players_row.inc  
 location: \<KF2Server\>\KFGame\Web\ServerAdmin  
 
-# How to run
+# Run
 
 1. Launch KF2 Server.bat
 2. Open brower FireFox or Chrome.
