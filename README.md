@@ -1,8 +1,15 @@
+
+# Feature
+
+* You are able to auto kick without mutator as Ranked Server.
+* I'm not original creator, I fixed a issue and improved, add perk-kick features.
+
 # How to install
 
-1. Install FireFox addon Violentmonkey https://addons.mozilla.org/ja/firefox/addon/violentmonkey/  
+1. Install FireFox or Chrome addon Violentmonkey https://addons.mozilla.org/ja/firefox/addon/violentmonkey/  
 2. Import KF2auto-kick.user.js  
-3. Backup and OverWrite 3 files (console.html, current_players.html, current_players_row.inc)  
+3. Backup and OverWrite 3 files:  
+console.html, current_players.html, current_players_row.inc  
 location: \<KF2Server\>\KFGame\Web\ServerAdmin  
 
 # How to run
@@ -15,11 +22,6 @@ location: \<KF2Server\>\KFGame\Web\ServerAdmin
 
 1. Click MANAGEMENT CONSOLE
 2. Edit level or perk what you want.
-
-# Feature
-
-* You are able to auto kick without mutator as Ranked Server.
-* I'm not original creator, I fixed a issue and improved, add perk-kick features.
 
 # What is a fixed issue and improved
 
