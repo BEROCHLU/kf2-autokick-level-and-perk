@@ -27,3 +27,11 @@ I fixed and improved things are following:
 
 * Previous auto-kick script could't kick specific player whose name is multi byte character. (e.g. Japanese, Chinese, Korea)  
 * It was need to keep open AUTO-KICK page to run auto-kick script.
+
+# How do I individual auto-kick setting for multiple server.
+
+In the case your opened ListenPort is 8080 and 8081.  
+Prepare for KF2auto-kick.user.js of two.  
+Change @match of UserScript Header.  
+One is changed http://\*/ServerAdmin/\* to http://localhost:8080/ServerAdmin/\*  
+The other is changed http://\*/ServerAdmin/\* to http://localhost:8081/ServerAdmin/\*  
