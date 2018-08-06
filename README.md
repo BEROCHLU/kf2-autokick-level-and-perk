@@ -7,7 +7,7 @@
 # How to install
 
 1. Install FireFox or Chrome addon Violentmonkey https://addons.mozilla.org/ja/firefox/addon/violentmonkey/  
-2. Import KF2auto-kick.user.js  
+2. Import KF2auto-kick.user.js by Violentmonkey setting.  
 3. Backup and OverWrite 3 files:  
 console.html, current_players.html, current_players_row.inc  
 location: \<KF2Server\>\KFGame\Web\ServerAdmin  
