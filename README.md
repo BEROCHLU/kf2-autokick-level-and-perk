@@ -10,7 +10,7 @@ https://forums.tripwireinteractive.com/forum/killing-floor-2/killing-floor-2-mod
 # Install
 
 1. Install FireFox or Chrome addon Violentmonkey https://addons.mozilla.org/ja/firefox/addon/violentmonkey/  
-2. Import KF2auto-kick.user.js by Violentmonkey setting.  
+2. Import the downloaded zip file from Violentmonkey setting.  
 3. Backup and OverWrite 3 files:  
 console.html, current_players.html, current_players_row.inc  
 location: \<KF2Server\>\KFGame\Web\ServerAdmin  
@@ -19,12 +19,12 @@ location: \<KF2Server\>\KFGame\Web\ServerAdmin
 
 1. Launch KF2 Server.bat
 2. Open brower FireFox or Chrome.
-3. Move to WebAdmin. (e.g. http://localhost:8080)  
+3. Move to WebAdmin. (default: http://localhost:8080)  
 
-# How to restrict level or perk
+# Where is setting which can restrict level or perk?
 
 1. Click MANAGEMENT CONSOLE in WebAdmin.
-2. Edit level or perk what you want.
+2. Edit level or perk which you want to restrict.  
 
 # What is a fixed issue and improved
 
