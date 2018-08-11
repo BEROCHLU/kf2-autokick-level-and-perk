@@ -10,7 +10,7 @@ https://forums.tripwireinteractive.com/forum/killing-floor-2/killing-floor-2-mod
 # Install
 
 1. Install FireFox or Chrome addon Violentmonkey https://addons.mozilla.org/ja/firefox/addon/violentmonkey/  
-2. Import the downloaded zip file from Violentmonkey setting.  
+2. Import the zip file from Violentmonkey setting.  
 3. Backup and OverWrite 3 files:  
 console.html, current_players.html, current_players_row.inc  
 location: \<KF2Server\>\KFGame\Web\ServerAdmin  
