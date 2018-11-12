@@ -35,7 +35,7 @@ It dose works if you see a number 1 with Violentmonkey icon.
 I fixed and improved things are following:
 
 * Previous auto-kick script could't kick specific player whose name is multi byte character. (e.g. Japanese, Chinese, Korea)  
-* It was need to keep open AUTO-KICK page to run auto-kick script.
+* No need to keep open AUTO-KICK page to enable auto-kick script. This script is valid each page in WebAdmin.
 
 # Can I do individual auto-kick setting for multiple server?	
 
