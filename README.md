@@ -21,10 +21,14 @@ location: \<KF2Server\>\KFGame\Web\ServerAdmin
 2. Open brower FireFox or Chrome.
 3. Move to WebAdmin. (default: http://localhost:8080)  
 
+# Confirm
+
+It dose works if you see a number 1 with Violentmonkey icon.
+
 # Where is setting which can restrict level or perk?
 
 1. Click MANAGEMENT CONSOLE in WebAdmin.
-2. Edit level or perk which you want to restrict.  
+2. Edit level or perk which you want to restrict. Changed setting is adapted in a few second.  
 
 # What is a fixed issue and improved
 
@@ -33,10 +37,10 @@ I fixed and improved things are following:
 * Previous auto-kick script could't kick specific player whose name is multi byte character. (e.g. Japanese, Chinese, Korea)  
 * It was need to keep open AUTO-KICK page to run auto-kick script.
 
-# How do I individual auto-kick setting for multiple server.
+# Can I do individual auto-kick setting for multiple server?	
 
-In the case your opened ListenPort is 8080 and 8081.  
-Prepare for KF2auto-kick.user.js of two.  
-Change @match of UserScript Header.  
-One is changed http://\*/ServerAdmin/\* to http://localhost:8080/ServerAdmin/*  
-The other is changed http://\*/ServerAdmin/\* to http://localhost:8081/ServerAdmin/*  
+Yes, the setting is independent per url and is stored individually.
+
+# Does it run with Tampermonkey too?
+
+Yes, if your server under heavy load, Tampermonkey could be better.
