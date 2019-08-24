@@ -12,7 +12,7 @@
 
 let g_time_id;
 
-(function() {
+(() => {
     'use strict';
 
     let arrKickperk = new Array(10);
@@ -74,7 +74,7 @@ let g_time_id;
                 console.log(e);
             });
         // test code
-        if (timer_count > 9000) {// 1H:225 20H:4500
+        if (timer_count > 9000) { // 1H:225 20H:4500
             clearInterval(g_time_id);
             g_time_id = setInterval(kickTime, 16000);
             timer_count = 0;
