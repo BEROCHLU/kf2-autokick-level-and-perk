@@ -41,7 +41,7 @@ let g_time_id;
             .then(response => response.text())
             .then(data => {
 
-                if (data.indexOf("There are no players") != -1) {
+                if (data.indexOf('There are no players') != -1) {
                     return;
                 }
 
@@ -57,12 +57,12 @@ let g_time_id;
                         (parseInt(gamer.perkLevel) < MIN_LV ||
                             parseInt(gamer.perkLevel) > MAX_LV)) {
 
-                        if (gamer.isSpectator == 'Yes') {
+                        if (gamer.isSpectator == 'No') {
                             asyncPostAll(gamer);
                         }
                     } else if (arrKickperk.includes(gamer.perkName)) {
 
-                        if (gamer.isSpectator == "No") {
+                        if (gamer.isSpectator == 'No') {
                             asyncPostAll(gamer);
                             console.log('no demo fire bsk');
                         }
@@ -74,7 +74,7 @@ let g_time_id;
             .catch(e => {
                 console.log(e);
             });
-        // test code
+        // fix memory leak issue
         if (timer_count > 9000) { // 1H:225 20H:4500
             clearInterval(g_time_id);
             g_time_id = setInterval(kickTime, 16000);
