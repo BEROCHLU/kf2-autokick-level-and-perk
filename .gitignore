@@ -1,2 +1,3 @@
-src/.jsbeautifyrc
+.jsbeautifyrc
 *.zip
+backup/

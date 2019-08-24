@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         KF2auto-kick
 // @namespace    monkey
-// @version      0.4
+// @version      0.5
 // @description  auto kick Level and Perk
 // @author       BEROCHlU
 // @match        http://*/ServerAdmin/*
@@ -17,6 +17,24 @@ let g_time_id;
 
     let arrKickperk = new Array(10);
     let timer_count = 0;
+
+    const asyncPostAll = async (gamer) => {
+        const promises = [
+            $.post("/ServerAdmin/current/players", {
+                playerkey: gamer.key,
+                action: "kick"
+            }),
+            $.post("/ServerAdmin/current/chat+frame", {
+                ajax: "1",
+                message: `auto-kick: ${gamer.perkName}-${gamer.perkLevel}`,
+                teamsay: "-1"
+            })
+        ];
+
+        let result = await Promise.all(promises);
+        console.log(result);
+        console.log(gamer);
+    }
 
     const kickTime = () => {
         fetch('/ServerAdmin/current/players')
@@ -39,36 +57,19 @@ let g_time_id;
                         (parseInt(gamer.perkLevel) < MIN_LV ||
                             parseInt(gamer.perkLevel) > MAX_LV)) {
 
-                        if (gamer.isSpectator == "No") {
-                            $.post("/ServerAdmin/current/players", {
-                                    playerkey: gamer.key,
-                                    action: "kick"
-                                }) &&
-                                $.post("/ServerAdmin/current/chat+frame", {
-                                    ajax: "1",
-                                    message: `auto-kick: ${gamer.perkName}-${gamer.perkLevel}`,
-                                    teamsay: "-1"
-                                })
-                            console.log(players);
+                        if (gamer.isSpectator == 'Yes') {
+                            asyncPostAll(gamer);
                         }
                     } else if (arrKickperk.includes(gamer.perkName)) {
 
                         if (gamer.isSpectator == "No") {
-                            $.post("/ServerAdmin/current/players", {
-                                    playerkey: gamer.key,
-                                    action: "kick"
-                                }) &&
-                                $.post("/ServerAdmin/current/chat+frame", {
-                                    ajax: "1",
-                                    message: `auto-kick: ${gamer.perkName}-${gamer.perkLevel}`,
-                                    teamsay: "-1"
-                                })
-                            console.log(players);
+                            asyncPostAll(gamer);
                             console.log('no demo fire bsk');
                         }
                     }
                 }
                 timer_count += 1;
+                console.log(timer_count)
             })
             .catch(e => {
                 console.log(e);
@@ -81,8 +82,8 @@ let g_time_id;
         }
     }
 
-    $(document).ready(function() {
-
+    //main
+    {
         var arrKickperkInit = ["anonymous", "anonymous", "anonymous", "anonymous", "anonymous", "anonymous", "anonymous", "anonymous", "anonymous", "anonymous"];
 
         localStorage.getItem("storageMin") || (localStorage.setItem("storageMin", "0"), console.log("localStorage MinLv initialized"));
@@ -90,5 +91,5 @@ let g_time_id;
         localStorage.getItem("storageKickperk") || (localStorage.setItem("storageKickperk", JSON.stringify(arrKickperkInit)), console.log("localStorage Kickperk initialized"));
 
         g_time_id = setInterval(kickTime, 16000);
-    });
+    }
 })();
