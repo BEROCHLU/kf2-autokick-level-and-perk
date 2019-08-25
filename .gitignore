@@ -1,3 +1,4 @@
 .jsbeautifyrc
 *.zip
 backup/
+*.code-workspace
