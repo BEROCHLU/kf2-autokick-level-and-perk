@@ -82,7 +82,7 @@ let g_time_id;
             clearInterval(g_time_id);
             g_time_id = setInterval(kickTime, 16000);
             timer_count = 0;
-            console.log(`new id:${g_time_id}`);
+            //console.log(`new id:${g_time_id}`);
         }
     }
 
