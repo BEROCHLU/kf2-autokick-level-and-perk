@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         KF2auto-kick
 // @namespace    monkey
-// @version      0.5
+// @version      0.6
 // @description  auto kick Level and Perk
 // @author       BEROCHlU
 // @match        http://*/ServerAdmin/*
@@ -9,6 +9,13 @@
 // @require      http://localhost:8080/images/jquery.js?gzip
 // @noframes
 // ==/UserScript==
+
+/**
+ * テンプレートエンジンの変数<%player.name%>が２バイト文字であった場合、サーバから%EF%BF%BDに変換された、文字化けした変数を受け取る。
+ * この時、kickに必要な<%player.playerkey%>が下３桁欠けた値となりkickできなくなる。
+ * これはサーバが２バイト文字に対応できてない問題であり、スクリプトの不具合ではない。現状、<%player.name%>を""に置き換えて
+ * 変数を受け取らないことで対処している。
+ */
 
 let g_time_id;
 
@@ -32,7 +39,7 @@ let g_time_id;
         ];
 
         let result = await Promise.all(promises);
-        console.log(result);
+        //console.log(result);
         console.log(gamer);
     }
 
@@ -54,16 +61,13 @@ let g_time_id;
                 for (let gamer of players.player) {
                     if (gamer.perkName === '') {
                         // do nothing
+                    } else if (gamer.isSpectator === 'Yes') {
+                        // do nothing
                     } else {
-                        if (parseInt(gamer.perkLevel) < MIN_LV || parseInt(gamer.perkLevel) > MAX_LV) {
-                            if (gamer.isSpectator === 'No') {
-                                asyncPostAll(gamer);
-                            }
+                        if (parseInt(gamer.perkLevel) < MIN_LV || MAX_LV < parseInt(gamer.perkLevel)) {
+                            asyncPostAll(gamer);
                         } else if (arrKickperk.includes(gamer.perkName)) {
-                            if (gamer.isSpectator === 'No') {
-                                asyncPostAll(gamer);
-                                console.log('no demo fire bsk');
-                            }
+                            asyncPostAll(gamer);
                         }
                     }
                 }
@@ -74,10 +78,11 @@ let g_time_id;
                 console.log(e);
             });
         // improve memory leak issue
-        if (timer_count > 60) { // 1H:225 20H:4500
+        if (timer_count > 800) { // 1H:225 20H:4500
             clearInterval(g_time_id);
             g_time_id = setInterval(kickTime, 16000);
             timer_count = 0;
+            console.log(`new id:${g_time_id}`);
         }
     }
 
