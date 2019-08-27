@@ -1,12 +1,11 @@
 // ==UserScript==
 // @name         KF2auto-kick
 // @namespace    monkey
-// @version      0.6
+// @version      0.61
 // @description  auto kick Level and Perk
 // @author       BEROCHlU
 // @match        http://*/ServerAdmin/*
 // @grant        none
-// @require      http://localhost:8080/images/jquery.js?gzip
 // @noframes
 // ==/UserScript==
 
@@ -26,20 +25,27 @@ let g_time_id;
     let timer_count = 0;
 
     const asyncPostAll = async (gamer) => {
+        let params = new URLSearchParams();
+        params.set('playerkey', gamer.key);
+        params.set('action', 'kick');
+
+        let params1 = new URLSearchParams();
+        params1.set('ajax', '1');
+        params1.set('message', `auto-kick: ${gamer.perkName}-${gamer.perkLevel}`);
+        params1.set('teamsay', '-1');
+
         const promises = [
-            $.post('/ServerAdmin/current/players', {
-                playerkey: gamer.key,
-                action: 'kick'
+            fetch('/ServerAdmin/current/players', {
+                method: 'POST',
+                body: params
             }),
-            $.post('/ServerAdmin/current/chat+frame', {
-                ajax: '1',
-                message: `auto-kick: ${gamer.perkName}-${gamer.perkLevel}`,
-                teamsay: '-1'
+            fetch('/ServerAdmin/current/players', {
+                method: 'POST',
+                body: params1
             })
         ];
 
-        let result = await Promise.all(promises);
-        //console.log(result);
+        const result = await Promise.all(promises);
         console.log(gamer);
     }
 
@@ -58,7 +64,7 @@ let g_time_id;
 
                 const players = JSON.parse(data.replace("}, ] }", "} ] }"));
 
-                for (let gamer of players.player) {
+                for (const gamer of players.player) {
                     if (gamer.perkName === '') {
                         // do nothing
                     } else if (gamer.isSpectator === 'Yes') {
