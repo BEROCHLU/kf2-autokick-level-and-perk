@@ -25,23 +25,23 @@ let g_time_id;
     let timer_count = 0;
 
     const asyncPostAll = async (gamer) => {
-        let params = new URLSearchParams();
-        params.set('playerkey', gamer.key);
-        params.set('action', 'kick');
+        let paramkick = new URLSearchParams();
+        paramkick.set('playerkey', gamer.key);
+        paramkick.set('action', 'kick');
 
-        let params1 = new URLSearchParams();
-        params1.set('ajax', '1');
-        params1.set('message', `auto-kick: ${gamer.perkName}-${gamer.perkLevel}`);
-        params1.set('teamsay', '-1');
+        let paramchat = new URLSearchParams();
+        paramchat.set('ajax', '1');
+        paramchat.set('message', `auto-kick: ${gamer.perkName}-${gamer.perkLevel}`);
+        paramchat.set('teamsay', '-1');
 
         const promises = [
             fetch('/ServerAdmin/current/players', {
                 method: 'POST',
-                body: params
+                body: paramkick
             }),
-            fetch('/ServerAdmin/current/players', {
+            fetch('/ServerAdmin/current/chat+frame', {
                 method: 'POST',
-                body: params1
+                body: paramchat
             })
         ];
 
