@@ -10,11 +10,10 @@
 // ==/UserScript==
 
 /**
- * テンプレートエンジンの変数<%player.name%>が2バイト文字であった場合、サーバから%EF%BF%BDに変換された、文字化けした変数を受け取る。
- * この時、直後の(key: value)のうちvalueが後ろ3バイト欠損する。
+ * テンプレートエンジンの変数<%player.name%>が２バイト文字であった場合、サーバから%EF%BF%BDに変換された、文字化けした変数を受け取る。
+ * この時、kickに必要な<%player.playerkey%>が下３桁欠けた値となりkickできなくなる。
  * これはサーバが２バイト文字に対応できてない問題であり、スクリプトの不具合ではない。現状、<%player.name%>を""に置き換えて
- * 変数を受け取らないことで対処している。他にもJSON.parseが厳格すぎてちょっとした1バイト記号でエラーを起こす。
- * やはり<%player.name%>を受け取らないのが現状のベストだ。
+ * 変数を受け取らないことで対処している。
  */
 
 let g_time_id;
@@ -88,7 +87,7 @@ let g_time_id;
                 console.log(e);
             });
         // improve memory leak issue
-        if (timer_count > 800) { // 1H:225 20H:4500
+        if (timer_count > 1024) { // 1H:225 20H:4500
             clearInterval(g_time_id);
             g_time_id = setInterval(kickTime, 16000);
             timer_count = 0;
