@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         KF2auto-kick
 // @namespace    monkey
-// @version      0.62
+// @version      0.61
 // @description  auto kick Level and Perk
 // @author       BEROCHlU
 // @match        http://*/ServerAdmin/*
@@ -10,10 +10,11 @@
 // ==/UserScript==
 
 /**
- * テンプレートエンジンの変数<%player.name%>が２バイト文字であった場合、サーバから%EF%BF%BDに変換された、文字化けした変数を受け取る。
- * この時、kickに必要な<%player.playerkey%>が下３桁欠けた値となりkickできなくなる。
+ * テンプレートエンジンの変数<%player.name%>が2バイト文字であった場合、サーバから%EF%BF%BDに変換された、文字化けした変数を受け取る。
+ * この時、直後の(key: value)のうちvalueが後ろ3バイト欠損する。
  * これはサーバが２バイト文字に対応できてない問題であり、スクリプトの不具合ではない。現状、<%player.name%>を""に置き換えて
- * 変数を受け取らないことで対処している。
+ * 変数を受け取らないことで対処している。他にもJSON.parseが厳格すぎてちょっとした1バイト記号でエラーを起こす。
+ * やはり<%player.name%>を受け取らないのが現状のベストだ。
  */
 
 let g_time_id;
@@ -54,9 +55,7 @@ let g_time_id;
             .then(response => response.text())
             .then(data => {
 
-                const INDEX_OF = data.indexOf('There are no players');
-
-                if (32 < INDEX_OF && INDEX_OF < 128) {
+                if (data.indexOf('There are no players') !== -1) {
                     return;
                 }
 
@@ -64,8 +63,7 @@ let g_time_id;
                 const MAX_LV = parseInt(localStorage.getItem("storageMax"));
                 arrKickperk = JSON.parse(localStorage.getItem("storageKickperk")); //console.log(MIN_LV,MAX_LV,arrKickperk);
 
-                data = data.replace(/[^\x01-\x7E]/gm, ''); //delete miss encording multibyte charactor
-                const players = JSON.parse(data);
+                const players = JSON.parse(data.replace("}, ] }", "} ] }"));
 
                 for (const gamer of players.player) {
                     if (gamer.perkName === '') {
@@ -87,7 +85,7 @@ let g_time_id;
                 console.log(e);
             });
         // improve memory leak issue
-        if (timer_count > 2250) { // 1H:225 20H:4500
+        if (timer_count > 800) { // 1H:225 20H:4500
             clearInterval(g_time_id);
             g_time_id = setInterval(kickTime, 16000);
             timer_count = 0;
