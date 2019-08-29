@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         KF2auto-kick
 // @namespace    monkey
-// @version      0.61
+// @version      0.62
 // @description  auto kick Level and Perk
 // @author       BEROCHlU
 // @match        http://*/ServerAdmin/*
@@ -54,7 +54,9 @@ let g_time_id;
             .then(response => response.text())
             .then(data => {
 
-                if (data.indexOf('There are no players') !== -1) {
+                const INDEX_OF = data.indexOf('There are no players');
+
+                if (32 < INDEX_OF && INDEX_OF < 128) {
                     return;
                 }
 
@@ -62,7 +64,8 @@ let g_time_id;
                 const MAX_LV = parseInt(localStorage.getItem("storageMax"));
                 arrKickperk = JSON.parse(localStorage.getItem("storageKickperk")); //console.log(MIN_LV,MAX_LV,arrKickperk);
 
-                const players = JSON.parse(data.replace("}, ] }", "} ] }"));
+                data = data.replace(/[^\x01-\x7E]/gm, ''); //delete miss encording multibyte charactor
+                const players = JSON.parse(data);
 
                 for (const gamer of players.player) {
                     if (gamer.perkName === '') {
@@ -84,7 +87,7 @@ let g_time_id;
                 console.log(e);
             });
         // improve memory leak issue
-        if (timer_count > 800) { // 1H:225 20H:4500
+        if (timer_count > 2250) { // 1H:225 20H:4500
             clearInterval(g_time_id);
             g_time_id = setInterval(kickTime, 16000);
             timer_count = 0;
