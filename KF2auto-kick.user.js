@@ -87,7 +87,7 @@ let g_time_id;
                 console.log(e);
             });
         // improve memory leak issue
-        if (timer_count > 2250) { // 1H:225 20H:4500
+        if (timer_count > 1024) { // 1H:225 20H:4500
             clearInterval(g_time_id);
             g_time_id = setInterval(kickTime, 16000);
             timer_count = 0;
