@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         KF2auto-kick
 // @namespace    monkey
-// @version      0.61
+// @version      0.62
 // @description  auto kick Level and Perk
 // @author       BEROCHlU
 // @match        http://*/ServerAdmin/*
@@ -51,7 +51,12 @@ let g_time_id;
     }
 
     const kickTime = () => {
-        fetch('/ServerAdmin/current/players')
+        fetch('/ServerAdmin/current/players', {
+                method: 'GET',
+                headers: {
+                    "Content-Type": "text/plain; charset=utf-8"
+                }
+            })
             .then(response => response.text())
             .then(data => {
 
