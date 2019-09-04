@@ -44,7 +44,7 @@ let g_time_id;
                 method: 'POST',
                 body: paramchat
             })
-        ];
+        ]
 
         const _result = await Promise.all(promises);
         console.log(gamer);
@@ -59,7 +59,6 @@ let g_time_id;
             })
             .then(response => response.text())
             .then(data => {
-
                 if (data.indexOf('There are no players') !== -1) {
                     return;
                 }
