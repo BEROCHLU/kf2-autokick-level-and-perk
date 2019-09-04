@@ -46,7 +46,7 @@ let g_time_id;
             })
         ];
 
-        const result = await Promise.all(promises);
+        const _result = await Promise.all(promises);
         console.log(gamer);
     }
 
@@ -86,9 +86,8 @@ let g_time_id;
                 timer_count += 1;
                 //console.log(timer_count)
             })
-            .catch(e => {
-                console.log(e);
-            });
+            .catch(e => console.log(e));
+
         // improve memory leak issue
         if (timer_count > 800) { // 1H:225 20H:4500
             clearInterval(g_time_id);
@@ -96,7 +95,7 @@ let g_time_id;
             timer_count = 0;
             //console.log(`new id:${g_time_id}`);
         }
-    }
+    } //kickTime
 
     { //main
         //let arrKickperkInit = ["anonymous", "anonymous", "anonymous", "anonymous", "anonymous", "anonymous", "anonymous", "anonymous", "anonymous", "anonymous"];
