@@ -66,8 +66,9 @@ let g_time_id;
 
                 const MIN_LV = parseInt(localStorage.getItem("storageMin"));
                 const MAX_LV = parseInt(localStorage.getItem("storageMax"));
-                arrKickperk = JSON.parse(localStorage.getItem("storageKickperk")); //console.log(MIN_LV,MAX_LV,arrKickperk);
+                arrKickperk = JSON.parse(localStorage.getItem("storageKickperk"));
 
+                data = data.replace('}{', '},{');
                 const arrPlayers = JSON.parse(data);
 
                 for (const gamer of arrPlayers) {
