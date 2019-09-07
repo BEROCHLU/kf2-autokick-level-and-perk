@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         KF2auto-kick
 // @namespace    monkey
-// @version      0.63
+// @version      0.64
 // @description  auto kick Level and Perk
 // @author       BEROCHlU
 // @match        http://*/ServerAdmin/*
@@ -86,11 +86,9 @@ let g_time_id;
                 timer_count += 1;
                 //console.log(timer_count)
             })
-            .catch(e => {
-                console.log(e);
-            });
+            .catch(e => console.log(e));
         // improve memory leak issue
-        if (timer_count > 800) { // 1H:225 20H:4500
+        if (timer_count > 900) { // 1H:225 20H:4500
             clearInterval(g_time_id);
             g_time_id = setInterval(kickTime, 16000);
             timer_count = 0;
