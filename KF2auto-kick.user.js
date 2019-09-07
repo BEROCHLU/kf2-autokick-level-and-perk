@@ -68,8 +68,7 @@ let g_time_id;
                 const MAX_LV = parseInt(localStorage.getItem("storageMax"));
                 arrKickperk = JSON.parse(localStorage.getItem("storageKickperk"));
 
-                data = data.replace('}{', '},{');
-                const arrPlayers = JSON.parse(data);
+                const arrPlayers = JSON.parse(data.replace('},]', '}]'));
 
                 for (const gamer of arrPlayers) {
                     if (gamer.perkName === '') {

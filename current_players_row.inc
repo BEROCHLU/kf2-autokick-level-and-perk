@@ -10,4 +10,4 @@
 	"isSpectator": "<%player.spectator%>",
 	"id": "<%player.playerid%>",
 	"key": "<%player.playerkey%>"
-}
+},
