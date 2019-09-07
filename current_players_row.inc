@@ -1,5 +1,4 @@
 {
-	"name": "",
 	"perkName": "<%player.perk.name%>",
 	"perkLevel": "<%player.perk.level%>",
 	"dosh": "<%player.score%>",

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         KF2auto-kick
 // @namespace    monkey
-// @version      0.62
+// @version      0.63
 // @description  auto kick Level and Perk
 // @author       BEROCHlU
 // @match        http://*/ServerAdmin/*
@@ -44,9 +44,9 @@ let g_time_id;
                 method: 'POST',
                 body: paramchat
             })
-        ]
+        ];
 
-        const _result = await Promise.all(promises);
+        const result = await Promise.all(promises);
         console.log(gamer);
     }
 
@@ -59,6 +59,7 @@ let g_time_id;
             })
             .then(response => response.text())
             .then(data => {
+
                 if (data.indexOf('There are no players') !== -1) {
                     return;
                 }
@@ -67,9 +68,9 @@ let g_time_id;
                 const MAX_LV = parseInt(localStorage.getItem("storageMax"));
                 arrKickperk = JSON.parse(localStorage.getItem("storageKickperk")); //console.log(MIN_LV,MAX_LV,arrKickperk);
 
-                const players = JSON.parse(data.replace("}, ] }", "} ] }"));
+                const arrPlayers = JSON.parse(data);
 
-                for (const gamer of players.player) {
+                for (const gamer of arrPlayers) {
                     if (gamer.perkName === '') {
                         // do nothing
                     } else if (gamer.isSpectator === 'Yes') {
@@ -85,8 +86,9 @@ let g_time_id;
                 timer_count += 1;
                 //console.log(timer_count)
             })
-            .catch(e => console.log(e));
-
+            .catch(e => {
+                console.log(e);
+            });
         // improve memory leak issue
         if (timer_count > 800) { // 1H:225 20H:4500
             clearInterval(g_time_id);
@@ -94,7 +96,7 @@ let g_time_id;
             timer_count = 0;
             //console.log(`new id:${g_time_id}`);
         }
-    } //kickTime
+    }
 
     { //main
         //let arrKickperkInit = ["anonymous", "anonymous", "anonymous", "anonymous", "anonymous", "anonymous", "anonymous", "anonymous", "anonymous", "anonymous"];
