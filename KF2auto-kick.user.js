@@ -46,7 +46,7 @@ let g_time_id;
             })
         ];
 
-        const result = await Promise.all(promises);
+        const _result = await Promise.all(promises);
         console.log(gamer);
     }
 
@@ -100,7 +100,6 @@ let g_time_id;
     }
 
     { //main
-        //let arrKickperkInit = ["anonymous", "anonymous", "anonymous", "anonymous", "anonymous", "anonymous", "anonymous", "anonymous", "anonymous", "anonymous"];
         const arrKickperkInit = Array(10).fill('anonymous');
 
         localStorage.getItem("storageMin") || (localStorage.setItem("storageMin", "0"), console.log("localStorage MinLv initialized"));
