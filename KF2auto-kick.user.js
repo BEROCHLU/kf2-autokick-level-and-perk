@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         KF2auto-kick
 // @namespace    monkey
-// @version      0.64
+// @version      0.65
 // @description  auto kick Level and Perk
 // @author       BEROCHlU
 // @match        http://*/ServerAdmin/*
@@ -11,9 +11,9 @@
 
 /**
  * テンプレートエンジンの変数<%player.name%>が2バイト文字であった場合、サーバから%EF%BF%BDに変換された、文字化けした変数を受け取る。
- * この時、直後の(key: value)のうちvalueが後ろ3バイト欠損する。
- * これはサーバが２バイト文字に対応できてない問題であり、スクリプトの不具合ではない。現状、<%player.name%>を""に置き換えて
- * 変数を受け取らないことで対処している。他にもJSON.parseが厳格すぎてちょっとした1バイト記号でエラーを起こす。
+ * この時、直後の連想配列(key: value)のうちvalueが後ろ3バイト欠損する。
+ * これはサーバが2バイト文字に対応できてない問題であり、スクリプトの不具合ではない。現状、<%player.name%>を
+ * 受け取らないことで対処している。他にもJSON.parseが厳格すぎて" ' \n等の特殊記号でエラーを起こす。
  * やはり<%player.name%>を受け取らないのが現状のベストだ。
  */
 
@@ -67,13 +67,16 @@ let g_time_id;
                 const MIN_LV = parseInt(localStorage.getItem("storageMin"));
                 const MAX_LV = parseInt(localStorage.getItem("storageMax"));
                 arrKickperk = JSON.parse(localStorage.getItem("storageKickperk"));
+                const bAllowLast = true;//debug
 
-                const arrPlayers = JSON.parse(data.replace('},]', '}]'));
+                const gameinfo = JSON.parse(data.replace('},]', '}]')); //console.log(gameinfo.waveNum, gameinfo.waveMax, gameinfo.monstersTotal, gameinfo.monstersDead);
 
-                for (const gamer of arrPlayers) {
+                for (const gamer of gameinfo.player) {
                     if (gamer.perkName === '') {
                         // do nothing
                     } else if (gamer.isSpectator === 'Yes') {
+                        // do nothing
+                    } else if (bAllowLast && (gameinfo.waveMax <= gameinfo.waveNum)) { // allow last wave and boss wave
                         // do nothing
                     } else {
                         if (parseInt(gamer.perkLevel) < MIN_LV || MAX_LV < parseInt(gamer.perkLevel)) {
