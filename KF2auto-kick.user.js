@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         KF2auto-kick
 // @namespace    monkey
-// @version      0.64
+// @version      0.7
 // @description  auto kick Level and Perk
 // @author       BEROCHlU
 // @match        http://*/ServerAdmin/*
@@ -68,9 +68,9 @@ let g_time_id;
                 const MAX_LV = parseInt(localStorage.getItem("storageMax"));
                 arrKickperk = JSON.parse(localStorage.getItem("storageKickperk"));
 
-                const arrPlayers = JSON.parse(data.replace('},]', '}]'));
+                const gameinfo = JSON.parse(data.replace('},]', '}]'));
 
-                for (const gamer of arrPlayers) {
+                for (const gamer of gameinfo.player) {
                     if (gamer.perkName === '') {
                         // do nothing
                     } else if (gamer.isSpectator === 'Yes') {
