@@ -77,9 +77,8 @@ let g_time_id;
                 elems.forEach(elem => {
                     arrElems.push(elem.dataset.kf2gameinfo);
                 });
-                const strElems = `[${arrElems.join(',')}]`;
 
-                const arrGamer = JSON.parse(strElems); //console.log(gameinfo.waveNum, gameinfo.waveMax, gameinfo.monstersTotal, gameinfo.monstersDead);
+                const arrGamer = JSON.parse(`[${arrElems.join(',')}]`);
 
                 const arrWaveinfo = doc.querySelector('span.kf2waveinfo').dataset.kf2waveinfo.split(',');
                 const waveNum = parseInt(arrWaveinfo[0]);
@@ -90,11 +89,11 @@ let g_time_id;
                         // do nothing
                     } else if (gamer.isSpectator === 'Yes') {
                         // do nothing
-                    } else if (bAllowLast && (waveMax <= waveNum)) { // allow last wave and boss wave
-                        // do nothing
                     } else {
                         if (parseInt(gamer.perkLevel) < MIN_LV || MAX_LV < parseInt(gamer.perkLevel)) {
                             asyncPostAll(gamer);
+                        } else if (bAllowLast && (waveMax <= waveNum)) { // last wave and boss wave
+                            // All Perks are allowed from this point until the Boss.
                         } else if (arrKickperk.includes(gamer.perkName)) {
                             asyncPostAll(gamer);
                         }
