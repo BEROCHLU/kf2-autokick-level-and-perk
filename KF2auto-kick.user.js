@@ -119,6 +119,6 @@ let g_time_id;
         localStorage.getItem("storageMax") || (localStorage.setItem("storageMax", "25"), console.log("localStorage MaxLv initialized"));
         localStorage.getItem("storageKickperk") || (localStorage.setItem("storageKickperk", JSON.stringify(arrKickperkInit)), console.log("localStorage Kickperk initialized"));
 
-        g_time_id = setInterval(kickTime, 8000);
+        g_time_id = setInterval(kickTime, 16000);
     }
 })();
