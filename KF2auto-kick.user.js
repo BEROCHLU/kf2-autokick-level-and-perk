@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         KF2auto-kick
 // @namespace    monkey
-// @version      0.65
+// @version      0.80
 // @description  auto kick Level and Perk
 // @author       BEROCHlU
 // @match        http://*/ServerAdmin/*
@@ -69,14 +69,28 @@ let g_time_id;
                 arrKickperk = JSON.parse(localStorage.getItem("storageKickperk"));
                 const bAllowLast = true;//debug
 
-                const gameinfo = JSON.parse(data.replace('},]', '}]')); //console.log(gameinfo.waveNum, gameinfo.waveMax, gameinfo.monstersTotal, gameinfo.monstersDead);
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(data, "text/html");
 
-                for (const gamer of gameinfo.player) {
+                let arrElems = [];
+                const elems = doc.querySelectorAll('span.kf2gameinfo');
+                elems.forEach(elem => {
+                    arrElems.push(elem.dataset.kf2gameinfo);
+                });
+                const strElems = `[${arrElems.join(',')}]`;
+
+                const arrGamer = JSON.parse(strElems); //console.log(gameinfo.waveNum, gameinfo.waveMax, gameinfo.monstersTotal, gameinfo.monstersDead);
+
+                const arrWaveinfo = doc.querySelector('span.kf2waveinfo').dataset.kf2waveinfo.split(',');
+                const waveNum = parseInt(arrWaveinfo[0]);
+                const waveMax = parseInt(arrWaveinfo[1]);
+
+                for (const gamer of arrGamer) {
                     if (gamer.perkName === '') {
                         // do nothing
                     } else if (gamer.isSpectator === 'Yes') {
                         // do nothing
-                    } else if (bAllowLast && (gameinfo.waveMax <= gameinfo.waveNum)) { // allow last wave and boss wave
+                    } else if (bAllowLast && (waveMax <= waveNum)) { // allow last wave and boss wave
                         // do nothing
                     } else {
                         if (parseInt(gamer.perkLevel) < MIN_LV || MAX_LV < parseInt(gamer.perkLevel)) {
@@ -106,6 +120,6 @@ let g_time_id;
         localStorage.getItem("storageMax") || (localStorage.setItem("storageMax", "25"), console.log("localStorage MaxLv initialized"));
         localStorage.getItem("storageKickperk") || (localStorage.setItem("storageKickperk", JSON.stringify(arrKickperkInit)), console.log("localStorage Kickperk initialized"));
 
-        g_time_id = setInterval(kickTime, 16000);
+        g_time_id = setInterval(kickTime, 8000);
     }
 })();
