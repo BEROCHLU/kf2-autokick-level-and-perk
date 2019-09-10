@@ -24,7 +24,7 @@ let g_time_id;
 
     let arrKickperk = Array(10);
     let timer_count = 0;
-    let bAnnounceOnce = true;
+    let announce_count = 0;
 
     const asyncPostAll = async (gamer) => {
         const paramkick = new URLSearchParams();
@@ -95,7 +95,7 @@ let g_time_id;
                             asyncPostAll(gamer);
                         } else if (bAllowLast && (waveMax <= waveNum)) { // last wave and boss wave
                             // do nothing
-                            if (bAnnounceOnce) {
+                            if (announce_count < 3) {
                                 const paramchat = new URLSearchParams();
                                 paramchat.set('ajax', '1');
                                 paramchat.set('message', `All Perks are allowed from this point until the Boss wave.`);
@@ -104,7 +104,7 @@ let g_time_id;
                                 fetch('/ServerAdmin/current/chat+frame', {
                                     method: 'POST',
                                     body: paramchat
-                                }).then(bAnnounceOnce = false);
+                                }).then(announce_count++);
                             }
                         } else if (arrKickperk.includes(gamer.perkName)) {
                             asyncPostAll(gamer);
