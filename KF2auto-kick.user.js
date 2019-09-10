@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         KF2auto-kick
 // @namespace    monkey
-// @version      0.80
+// @version      0.82
 // @description  auto kick Level and Perk
 // @author       BEROCHlU
 // @match        http://*/ServerAdmin/*
@@ -24,13 +24,14 @@ let g_time_id;
 
     let arrKickperk = Array(10);
     let timer_count = 0;
+    let bAnnounceOnce = true;
 
     const asyncPostAll = async (gamer) => {
-        let paramkick = new URLSearchParams();
+        const paramkick = new URLSearchParams();
         paramkick.set('playerkey', gamer.key);
         paramkick.set('action', 'kick');
 
-        let paramchat = new URLSearchParams();
+        const paramchat = new URLSearchParams();
         paramchat.set('ajax', '1');
         paramchat.set('message', `auto-kick: ${gamer.perkName}-${gamer.perkLevel}`);
         paramchat.set('teamsay', '-1');
@@ -67,7 +68,7 @@ let g_time_id;
                 const MIN_LV = parseInt(localStorage.getItem("storageMin"));
                 const MAX_LV = parseInt(localStorage.getItem("storageMax"));
                 arrKickperk = JSON.parse(localStorage.getItem("storageKickperk"));
-                const bAllowLast = true;//debug
+                const bAllowLast = true; //debug
 
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(data, "text/html");
@@ -93,7 +94,18 @@ let g_time_id;
                         if (parseInt(gamer.perkLevel) < MIN_LV || MAX_LV < parseInt(gamer.perkLevel)) {
                             asyncPostAll(gamer);
                         } else if (bAllowLast && (waveMax <= waveNum)) { // last wave and boss wave
-                            // All Perks are allowed from this point until the Boss.
+                            // do nothing
+                            if (bAnnounceOnce) {
+                                const paramchat = new URLSearchParams();
+                                paramchat.set('ajax', '1');
+                                paramchat.set('message', `All Perks are allowed from this point until the Boss wave.`);
+                                paramchat.set('teamsay', '-1');
+                                // announce 
+                                fetch('/ServerAdmin/current/chat+frame', {
+                                    method: 'POST',
+                                    body: paramchat
+                                }).then(bAnnounceOnce = false);
+                            }
                         } else if (arrKickperk.includes(gamer.perkName)) {
                             asyncPostAll(gamer);
                         }
