@@ -68,7 +68,7 @@ let g_time_id;
                 const MIN_LV = parseInt(localStorage.getItem("storageMin"));
                 const MAX_LV = parseInt(localStorage.getItem("storageMax"));
                 arrKickperk = JSON.parse(localStorage.getItem("storageKickperk"));
-                const bAllowLast = true; //debug
+                const bAllowLast = (localStorage.getItem("storageAllowLast") === 'true') ? true : false;
 
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(data, "text/html");
@@ -95,7 +95,7 @@ let g_time_id;
                             asyncPostAll(gamer);
                         } else if (bAllowLast && (waveMax <= waveNum)) { // last wave and boss wave
                             // do nothing
-                            if (announce_count < 3) {
+                            if (announce_count < 2) {
                                 const paramchat = new URLSearchParams();
                                 paramchat.set('ajax', '1');
                                 paramchat.set('message', `Allowed All Perks from last wave until the Boss wave.`);
