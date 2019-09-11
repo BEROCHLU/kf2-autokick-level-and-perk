@@ -98,7 +98,7 @@ let g_time_id;
                             if (announce_count < 3) {
                                 const paramchat = new URLSearchParams();
                                 paramchat.set('ajax', '1');
-                                paramchat.set('message', `All Perks are allowed from this point until the Boss wave.`);
+                                paramchat.set('message', `Allowed All Perks from last wave until the Boss wave.`);
                                 paramchat.set('teamsay', '-1');
                                 // announce 
                                 fetch('/ServerAdmin/current/chat+frame', {
