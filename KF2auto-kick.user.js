@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         KF2auto-kick
 // @namespace    monkey
-// @version      0.7
+// @version      2.0
 // @description  auto kick Level and Perk
 // @author       BEROCHlU
 // @match        http://*/ServerAdmin/*
@@ -11,9 +11,9 @@
 
 /**
  * テンプレートエンジンの変数<%player.name%>が2バイト文字であった場合、サーバから%EF%BF%BDに変換された、文字化けした変数を受け取る。
- * この時、直後の(key: value)のうちvalueが後ろ3バイト欠損する。
- * これはサーバが２バイト文字に対応できてない問題であり、スクリプトの不具合ではない。現状、<%player.name%>を""に置き換えて
- * 変数を受け取らないことで対処している。他にもJSON.parseが厳格すぎてちょっとした1バイト記号でエラーを起こす。
+ * この時、直後の連想配列(key: value)のうちvalueが後ろ3バイト欠損する。
+ * これはサーバが2バイト文字に対応できてない問題であり、スクリプトの不具合ではない。現状、<%player.name%>を
+ * 受け取らないことで対処している。他にもJSON.parseが厳格すぎて" ' \n等の特殊記号でエラーを起こす。
  * やはり<%player.name%>を受け取らないのが現状のベストだ。
  */
 
@@ -24,13 +24,14 @@ let g_time_id;
 
     let arrKickperk = Array(10);
     let timer_count = 0;
+    let announce_count = 0;
 
     const asyncPostAll = async (gamer) => {
-        let paramkick = new URLSearchParams();
+        const paramkick = new URLSearchParams();
         paramkick.set('playerkey', gamer.key);
         paramkick.set('action', 'kick');
 
-        let paramchat = new URLSearchParams();
+        const paramchat = new URLSearchParams();
         paramchat.set('ajax', '1');
         paramchat.set('message', `auto-kick: ${gamer.perkName}-${gamer.perkLevel}`);
         paramchat.set('teamsay', '-1');
@@ -67,10 +68,24 @@ let g_time_id;
                 const MIN_LV = parseInt(localStorage.getItem("storageMin"));
                 const MAX_LV = parseInt(localStorage.getItem("storageMax"));
                 arrKickperk = JSON.parse(localStorage.getItem("storageKickperk"));
+                const bAllowLast = (localStorage.getItem("storageAllowLast") === 'true') ? true : false;
 
-                const gameinfo = JSON.parse(data.replace('},]', '}]'));
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(data, "text/html");
 
-                for (const gamer of gameinfo.player) {
+                let arrElems = [];
+                const elems = doc.querySelectorAll('span.kf2gameinfo');
+                elems.forEach(elem => {
+                    arrElems.push(elem.dataset.kf2gameinfo);
+                });
+
+                const arrGamer = JSON.parse(`[${arrElems.join(',')}]`);
+
+                const arrWaveinfo = doc.querySelector('span.kf2waveinfo').dataset.kf2waveinfo.split(',');
+                const waveNum = parseInt(arrWaveinfo[0]);
+                const waveMax = parseInt(arrWaveinfo[1]);
+
+                for (const gamer of arrGamer) {
                     if (gamer.perkName === '') {
                         // do nothing
                     } else if (gamer.isSpectator === 'Yes') {
@@ -78,6 +93,19 @@ let g_time_id;
                     } else {
                         if (parseInt(gamer.perkLevel) < MIN_LV || MAX_LV < parseInt(gamer.perkLevel)) {
                             asyncPostAll(gamer);
+                        } else if (bAllowLast && (waveMax <= waveNum)) { // last wave and boss wave
+                            // do nothing
+                            if (announce_count < 2) {
+                                const paramchat = new URLSearchParams();
+                                paramchat.set('ajax', '1');
+                                paramchat.set('message', `Allowed All Perks from last wave until the Boss wave.`);
+                                paramchat.set('teamsay', '-1');
+                                // announce 
+                                fetch('/ServerAdmin/current/chat+frame', {
+                                    method: 'POST',
+                                    body: paramchat
+                                }).then(announce_count++);
+                            }
                         } else if (arrKickperk.includes(gamer.perkName)) {
                             asyncPostAll(gamer);
                         }
@@ -102,6 +130,7 @@ let g_time_id;
         localStorage.getItem("storageMin") || (localStorage.setItem("storageMin", "0"), console.log("localStorage MinLv initialized"));
         localStorage.getItem("storageMax") || (localStorage.setItem("storageMax", "25"), console.log("localStorage MaxLv initialized"));
         localStorage.getItem("storageKickperk") || (localStorage.setItem("storageKickperk", JSON.stringify(arrKickperkInit)), console.log("localStorage Kickperk initialized"));
+        localStorage.getItem("storageAllowLast") || (localStorage.setItem("storageAllowLast", "false"), console.log("localStorage AllowLast initialized") );
 
         g_time_id = setInterval(kickTime, 16000);
     }

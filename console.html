@@ -3,18 +3,21 @@
 var perkMinLv;
 var perkMaxLv;
 var arrKickperk = new Array(10);
+var allowLast;
 
 $( document ).ready(function() {
 
-	var arrKickperkInit = ["Berserker","anonymous","anonymous","anonymous","Demolitionist","Firebug","anonymous","anonymous","anonymous","anonymous"];
+	var arrKickperkInit = ["anonymous","anonymous","anonymous","anonymous","anonymous","anonymous","anonymous","anonymous","anonymous","anonymous"];
 
 	localStorage.getItem("storageMin") || (localStorage.setItem("storageMin", "0"), console.log("localStorage MinLv initialized") );
 	localStorage.getItem("storageMax") || (localStorage.setItem("storageMax", "25"), console.log("localStorage MaxLv initialized") );
 	localStorage.getItem("storageKickperk") || (localStorage.setItem("storageKickperk", JSON.stringify(arrKickperkInit)), console.log("localStorage Kickperk initialized") );
+	localStorage.getItem("storageAllowLast") || (localStorage.setItem("storageAllowLast", "false"), console.log("localStorage AllowLast initialized") );
 
 	perkMinLv = parseInt(localStorage.getItem("storageMin") );
 	perkMaxLv = parseInt(localStorage.getItem("storageMax") );
 	arrKickperk = JSON.parse(localStorage.getItem("storageKickperk"));
+	allowLast = (localStorage.getItem("storageAllowLast") === 'true') ? true : false;
 	
 });
 
@@ -151,6 +154,33 @@ $('input[name="kickperks"]').change(function(){
 //]]>
 </script>
 </dl>
+<dl>
+	<dt title="Allow All Perks from last wave until the Boss wave"><label title="Keep to Auto-Kick by perk level">Allow All Perks from last wave until the Boss wave</label></dt>
+	<label><input type="checkbox" name="allow-last">Enable</label>
+</dl>
+<script type="text/javascript">
+//<![CDATA[
+$(document).ready(function(){
+	$('input[name="allow-last"]')[0].checked = allowLast;
+
+	if(allowLast){
+		$('input[name="allow-last"]').parent('label').css({'color':'#c28282', 'text-shadow':'0px 0px 2px #964949'});
+	}
+});
+
+$('input[name="allow-last"]').change(function() {
+	if($(this).is(':checked') === true){
+		localStorage.setItem("storageAllowLast", 'true');
+		$(this).parent('label').css({'color':'#c28282', 'text-shadow':'0px 0px 2px #964949'});
+		console.log("localStorage AllowLast changed", 'true');
+	}else{
+		localStorage.setItem("storageAllowLast", 'false');
+		$(this).parent('label').css('color','');
+		console.log("localStorage AllowLast changed", 'false');
+	}
+});
+//]]>
+</script>
 </div>
 </div>
 
