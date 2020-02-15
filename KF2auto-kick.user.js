@@ -68,7 +68,7 @@ let g_time_id;
                 const MIN_LV = parseInt(localStorage.getItem("storageMin"));
                 const MAX_LV = parseInt(localStorage.getItem("storageMax"));
                 arrKickperk = JSON.parse(localStorage.getItem("storageKickperk"));
-                const bAllowLast = (localStorage.getItem("storageAllowLast") === 'true') ? true : false;
+                const isAllowLast = (localStorage.getItem("storageAllowLast") === 'true') ? true : false;
 
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(data, "text/html");
@@ -93,8 +93,7 @@ let g_time_id;
                     } else {
                         if (parseInt(gamer.perkLevel) < MIN_LV || MAX_LV < parseInt(gamer.perkLevel)) {
                             asyncPostAll(gamer);
-                        } else if (bAllowLast && (waveMax <= waveNum)) { // last wave and boss wave
-                            // do nothing
+                        } else if (isAllowLast && (waveMax <= waveNum)) { // last wave and boss wave
                             if (announce_count < 2) {
                                 const paramchat = new URLSearchParams();
                                 paramchat.set('ajax', '1');
@@ -104,7 +103,7 @@ let g_time_id;
                                 fetch('/ServerAdmin/current/chat+frame', {
                                     method: 'POST',
                                     body: paramchat
-                                }).then(announce_count++);
+                                }).then(() => announce_count++);
                             }
                         } else if (arrKickperk.includes(gamer.perkName)) {
                             asyncPostAll(gamer);
@@ -130,7 +129,7 @@ let g_time_id;
         localStorage.getItem("storageMin") || (localStorage.setItem("storageMin", "0"), console.log("localStorage MinLv initialized"));
         localStorage.getItem("storageMax") || (localStorage.setItem("storageMax", "25"), console.log("localStorage MaxLv initialized"));
         localStorage.getItem("storageKickperk") || (localStorage.setItem("storageKickperk", JSON.stringify(arrKickperkInit)), console.log("localStorage Kickperk initialized"));
-        localStorage.getItem("storageAllowLast") || (localStorage.setItem("storageAllowLast", "false"), console.log("localStorage AllowLast initialized") );
+        localStorage.getItem("storageAllowLast") || (localStorage.setItem("storageAllowLast", "false"), console.log("localStorage AllowLast initialized"));
 
         g_time_id = setInterval(kickTime, 16000);
     }
