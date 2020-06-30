@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         KF2auto-kick
 // @namespace    monkey
-// @version      2.0
+// @version      2.0.1
 // @description  auto kick Level and Perk
 // @author       BEROCHlU
 // @match        http://*/ServerAdmin/*
@@ -25,6 +25,7 @@ let g_time_id;
     let arrKickperk = Array(10);
     let timer_count = 0;
     let announce_count = 0;
+    let KICK_INTERVAL = 12000; //number of times the kickTime function has been called
 
     const asyncPostAll = async (gamer) => {
         const paramkick = new URLSearchParams();
@@ -61,6 +62,9 @@ let g_time_id;
             .then(response => response.text())
             .then(data => {
 
+                timer_count += 1;
+                //console.log(`timer_count: ${timer_count} announce_count: ${announce_count}`);
+
                 if (data.indexOf('There are no players') !== -1) {
                     return;
                 }
@@ -85,6 +89,10 @@ let g_time_id;
                 const waveNum = parseInt(arrWaveinfo[0]);
                 const waveMax = parseInt(arrWaveinfo[1]);
 
+                if(waveNum === 3) {
+                    announce_count = 0;
+                }
+
                 for (const gamer of arrGamer) {
                     if (gamer.perkName === '') {
                         // do nothing
@@ -94,7 +102,8 @@ let g_time_id;
                         if (parseInt(gamer.perkLevel) < MIN_LV || MAX_LV < parseInt(gamer.perkLevel)) {
                             asyncPostAll(gamer);
                         } else if (isAllowLast && (waveMax <= waveNum)) { // last wave and boss wave
-                            if (announce_count < 2) {
+                            announce_count += 1;
+                            if (announce_count === 1 || announce_count === 7) {
                                 const paramchat = new URLSearchParams();
                                 paramchat.set('ajax', '1');
                                 paramchat.set('message', `Allowed All Perks from last wave until the Boss wave.`);
@@ -103,23 +112,20 @@ let g_time_id;
                                 fetch('/ServerAdmin/current/chat+frame', {
                                     method: 'POST',
                                     body: paramchat
-                                }).then(() => announce_count++);
+                                });
                             }
                         } else if (arrKickperk.includes(gamer.perkName)) {
                             asyncPostAll(gamer);
                         }
                     }
-                }
-                timer_count += 1;
-                //console.log(timer_count)
+                } //for
             })
             .catch(e => console.log(e));
         // improve memory leak issue
-        if (timer_count > 900) { // 1H:225 20H:4500
+        if (0 < timer_count && timer_count % 1000 == 0) { // 1000: 3H20M
             clearInterval(g_time_id);
-            g_time_id = setInterval(kickTime, 16000);
-            timer_count = 0;
-            //console.log(`new id:${g_time_id}`);
+            g_time_id = setInterval(kickTime, KICK_INTERVAL);
+            //console.log(`new id: ${g_time_id}`);
         }
     }
 
@@ -131,6 +137,6 @@ let g_time_id;
         localStorage.getItem("storageKickperk") || (localStorage.setItem("storageKickperk", JSON.stringify(arrKickperkInit)), console.log("localStorage Kickperk initialized"));
         localStorage.getItem("storageAllowLast") || (localStorage.setItem("storageAllowLast", "false"), console.log("localStorage AllowLast initialized"));
 
-        g_time_id = setInterval(kickTime, 16000);
+        g_time_id = setInterval(kickTime, KICK_INTERVAL);
     }
 })();
