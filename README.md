@@ -26,9 +26,8 @@ location: \<KF2Server\>\KFGame\Web\ServerAdmin
 3. Move to WebAdmin. (default: http://localhost:8080)  
 
 # Settings
-
+![image](https://user-images.githubusercontent.com/42054433/86207426-7da42d00-bba9-11ea-8ff2-bd9d48e8ec7b.png)
 Click `MANAGEMENT CONSOLE` in WebAdmin.
-
 * ALLOW MINIMUM PERK LEVEL  
 A player below this level will be kicked.
 
