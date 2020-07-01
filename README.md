@@ -26,7 +26,7 @@ location: \<KF2Server\>\KFGame\Web\ServerAdmin
 3. Move to WebAdmin. (default: http://localhost:8080)  
 
 # Settings
-![image](https://user-images.githubusercontent.com/42054433/86207426-7da42d00-bba9-11ea-8ff2-bd9d48e8ec7b.png)
+![kf2guide1](https://user-images.githubusercontent.com/42054433/86207426-7da42d00-bba9-11ea-8ff2-bd9d48e8ec7b.png)
 Click `MANAGEMENT CONSOLE` in WebAdmin.
 * ALLOW MINIMUM PERK LEVEL  
 A player below this level will be kicked.
@@ -49,6 +49,11 @@ These settings will take effect in a few seconds after being changed.
 It dose works if you see a number 1 with Violentmonkey icon.
 
 # Q&A
+
+# All players name are shown as anonymous in PLAYERS page
+
+![kf2guide2](https://user-images.githubusercontent.com/42054433/86207878-72053600-bbaa-11ea-8d57-5e7614bec9cd.png)
+It is not a bug but a feature. All players name are shown as anonymous because to avoid a bug which would not work by GO button. This is not my script bug. This is a known bug caused by the KF2 server not assuming player name whose multibyte-characters. That is why this is not my script bug.
 
 # Does it run with Tampermonkey too?
 
