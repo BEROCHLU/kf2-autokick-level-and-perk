@@ -23,9 +23,9 @@ let g_time_id;
     'use strict';
 
     let arrKickperk = Array(10);
-    let timer_count = 0;
+    let timer_count = 0; //number of times the kickTime function has been called
     let announce_count = 0;
-    let KICK_INTERVAL = 12000; //number of times the kickTime function has been called
+    let KICK_INTERVAL = 12000; //millseconds
 
     const asyncPostAll = async (gamer) => {
         const paramkick = new URLSearchParams();
@@ -89,7 +89,7 @@ let g_time_id;
                 const waveNum = parseInt(arrWaveinfo[0]);
                 const waveMax = parseInt(arrWaveinfo[1]);
 
-                if(waveNum === 3) {
+                if (waveNum === 3) {
                     announce_count = 0;
                 }
 
