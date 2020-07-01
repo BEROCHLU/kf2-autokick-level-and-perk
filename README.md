@@ -39,8 +39,7 @@ Checked perks will be kicked.
 
 * ALLOW ALL PERKS FROM LAST WAVE UNTIL THE BOSS WAVE  
 If checked Enable, all perks are allowed between last wave and boss wave. (default: unchecked)
-But keep level-kick.  
-When players reach last wave, following message will be announced:  
+But keep level-kick. When players reach last wave, following message will be announced:  
 _Allowed All Perks from last wave until the Boss wave._
 
 These settings will take effect in a few seconds after being changed.
