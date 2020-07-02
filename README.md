@@ -9,7 +9,7 @@ https://forums.tripwireinteractive.com/forum/killing-floor-2/killing-floor-2-mod
 # Install
 
 1. Install Chrome* or FireFox. *Recommend Chrome
-2. Install browser addon [Violentmonkey](https://addons.mozilla.org/ja/firefox/addon/violentmonkey/).
+2. Install browser addon [Violentmonkey](https://chrome.google.com/webstore/detail/violentmonkey/jinjaccalgkegednnccohejagnlnfdag).
 3. Download latest release [zip file](https://github.com/BEROCHLU/kf2-autokick-level-and-perk/releases).
 4. Import the zip file from Violentmonkey setting.
 5. Extract the zip file.
