@@ -49,6 +49,8 @@ These settings will take effect in a few seconds after being changed.
 It dose works if you see a number 1 with Violentmonkey icon.  
 ![monkey](https://user-images.githubusercontent.com/42054433/86208261-269f5780-bbab-11ea-9413-efc7c36ba9db.JPG)
 
+Keep open browser to work auto-kick script. If you close the browser, the script will not work.
+
 # Q&A
 
 # All players name are shown as anonymous in PLAYERS page
