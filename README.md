@@ -44,7 +44,7 @@ _Allowed All Perks from last wave until the Boss wave._
 
 These settings will take effect in a few seconds after being changed.
 
-# Confirm
+# Confirm working
 
 It dose works if you see a number 1 with Violentmonkey icon.  
 ![monkey](https://user-images.githubusercontent.com/42054433/86208261-269f5780-bbab-11ea-9413-efc7c36ba9db.JPG)
